@@ -1,0 +1,45 @@
+@use '../../../../../styles/index.sass' as *
+
+.plant-card
+  background-color: var(--color-bg)
+  color: var(--color-text)
+  border: 1px solid var(--color-border)
+  border-radius: $border-radius
+  overflow: hidden
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08)
+  transition: transform $transition-fast
+  display: flex
+  flex-direction: column
+  font-family: $font-family
+
+  &:hover
+    transform: translateY(-4px)
+
+  &__image
+    width: 100%
+    height: 200px
+    object-fit: cover
+    border-bottom: 1px solid var(--color-border)
+
+  &__body
+    padding: 1rem
+
+  &__name
+    font-size: 1.2rem
+    font-weight: 600
+    margin: 0 0 0.5rem 0
+    color: var(--color-primary)
+
+  &__scientific
+    font-size: 0.95rem
+    margin-bottom: 0.5rem
+    color: var(--color-secondary)
+
+  &__genus,
+  &__species,
+  &__family
+    font-size: 0.9rem
+    margin-bottom: 0.25rem
+
+  strong
+    color: var(--color-accent)

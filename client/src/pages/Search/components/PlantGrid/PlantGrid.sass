@@ -1,0 +1,18 @@
+@use '../../../../styles/index.sass' as *
+
+.plant-grid
+  padding: 1rem
+  font-family: $font-family
+  font-size: $font-size-base
+  color: var(--color-text)
+
+  &__message
+    text-align: center
+    font-weight: 500
+    color: var(--color-secondary)
+
+  &__list
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))
+    gap: 1.5rem
+    margin-top: 1rem

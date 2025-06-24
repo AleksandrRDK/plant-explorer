@@ -1,0 +1,42 @@
+@use '../../../../styles/index.sass' as *
+
+.search-bar
+  display: flex
+  flex-direction: column
+  gap: 0.5rem
+  font-family: $font-family
+  font-size: $font-size-base
+  color: var(--color-text)
+
+  &__label
+    font-weight: 600
+
+  &__input
+    padding: 0.5rem 1rem
+    border: 1px solid var(--color-border)
+    border-radius: $border-radius
+    background-color: var(--color-bg)
+    color: var(--color-text)
+    transition: border $transition-fast, box-shadow $transition-fast
+
+    &:focus
+      outline: none
+      border-color: var(--color-primary)
+      box-shadow: 0 0 0 2px var(--color-accent)
+
+  &__button
+    align-self: flex-start
+    padding: 0.5rem 1.2rem
+    background-color: var(--color-primary)
+    color: #fff
+    border: none
+    border-radius: $border-radius
+    cursor: pointer
+    font-weight: 600
+    transition: background-color $transition-fast
+
+    &:hover
+      background-color: var(--color-secondary)
+
+    &:active
+      background-color: var(--color-accent)
