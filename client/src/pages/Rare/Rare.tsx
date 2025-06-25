@@ -1,9 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Navigation } from '@/components/Navigation/Navigation';
 import type { Observation } from '@/types/rarePlants';
 import { fetchObservations } from '@/api/observations';
 
 import './Rare.sass';
+import RareInfo from './components/RareInfo/RareInfo';
 
 const Rare = () => {
     const [observations, setObservations] = useState<Observation[]>([]);
@@ -14,30 +15,37 @@ const Rare = () => {
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [modalImageUrl, setModalImageUrl] = useState<string | null>(null);
 
-    const loadObservations = useCallback(async () => {
-        if (isLoading || !hasMore) return;
+    const isLoadingRef = useRef(false);
 
-        setIsLoading(true);
-        setError(null);
+    const loadObservations = useCallback(
+        async (pageToLoad: number) => {
+            if (isLoadingRef.current || !hasMore) return;
 
-        try {
-            const data = await fetchObservations(page);
-            if (data.length === 0) {
-                setHasMore(false);
-            } else {
-                setObservations((prev) => [...prev, ...data]);
-                setPage((prev) => prev + 1);
+            isLoadingRef.current = true;
+            setIsLoading(true);
+            setError(null);
+
+            try {
+                const data = await fetchObservations(pageToLoad);
+                if (data.length === 0) {
+                    setHasMore(false);
+                } else {
+                    setObservations((prev) => [...prev, ...data]);
+                    setPage(pageToLoad + 1);
+                }
+            } catch (err) {
+                setError('Ошибка при загрузке данных.');
+                console.error(err);
+            } finally {
+                isLoadingRef.current = false;
+                setIsLoading(false);
             }
-        } catch (err) {
-            setError('Ошибка при загрузке данных.');
-            console.error(err);
-        } finally {
-            setIsLoading(false);
-        }
-    }, [page, isLoading, hasMore]);
+        },
+        [hasMore]
+    );
 
     useEffect(() => {
-        loadObservations();
+        loadObservations(1);
     }, []);
 
     useEffect(() => {
@@ -45,14 +53,15 @@ const Rare = () => {
             const bottomReached =
                 window.innerHeight + window.scrollY >=
                 document.body.offsetHeight - 300;
-            if (bottomReached) {
-                loadObservations();
+
+            if (bottomReached && !isLoadingRef.current && hasMore) {
+                loadObservations(page);
             }
         };
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [loadObservations]);
+    }, [loadObservations, page, hasMore]);
 
     return (
         <>
@@ -63,12 +72,15 @@ const Rare = () => {
                 {error && <p className="rare__error">{error}</p>}
 
                 <ul className="rare__list">
-                    {observations.map((obs) => {
+                    {observations.map((obs, index) => {
                         const taxon = obs.taxon;
                         if (!taxon) return null;
 
                         return (
-                            <li key={obs.id} className="rare__item">
+                            <li
+                                key={`${obs.id}-${index}`}
+                                className="rare__item"
+                            >
                                 <div className="rare__item-img__wrapper">
                                     {taxon.default_photo ? (
                                         <img
@@ -94,86 +106,7 @@ const Rare = () => {
                                         </div>
                                     )}
                                 </div>
-
-                                <div className="rare__info">
-                                    <div className="rare__info-header">
-                                        <p>
-                                            <strong>Название:</strong>{' '}
-                                            {taxon.preferred_common_name ||
-                                                'нет данных'}
-                                        </p>
-                                        <p>
-                                            <strong>Научное имя:</strong>{' '}
-                                            {taxon.scientific_name ||
-                                                'нет данных'}
-                                        </p>
-                                    </div>
-
-                                    <div className="rare__info-columns">
-                                        <div className="rare__info-column">
-                                            <p>
-                                                <strong>Ранг:</strong>{' '}
-                                                {taxon.rank || 'нет данных'}
-                                            </p>
-                                            <p>
-                                                <strong>Категория:</strong>{' '}
-                                                {taxon.iconic_taxon_name ||
-                                                    'нет данных'}
-                                            </p>
-                                            <p>
-                                                <strong>Вымерший вид:</strong>{' '}
-                                                {taxon.extinct ? 'да' : 'нет'}
-                                            </p>
-                                        </div>
-
-                                        <div className="rare__info-column">
-                                            <p>
-                                                <strong>Дата:</strong>{' '}
-                                                {obs.observed_on
-                                                    ? new Date(
-                                                          obs.observed_on
-                                                      ).toLocaleDateString()
-                                                    : 'нет данных'}
-                                            </p>
-                                            <p>
-                                                <strong>Часовой пояс:</strong>{' '}
-                                                {obs.created_time_zone ||
-                                                    'нет данных'}
-                                            </p>
-                                            <p>
-                                                <strong>ID сообщества:</strong>{' '}
-                                                {obs.community_taxon_id ||
-                                                    'нет данных'}
-                                            </p>
-                                            <p>
-                                                <strong>Место:</strong>{' '}
-                                                {obs.place_guess ||
-                                                    'нет данных'}
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <p className="rare__description">
-                                        <strong>Описание:</strong>{' '}
-                                        {obs.description || 'нет описания.'}
-                                    </p>
-
-                                    {taxon.wikipedia_url ? (
-                                        <p className="rare__wiki">
-                                            <a
-                                                href={taxon.wikipedia_url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                Подробнее на Wikipedia
-                                            </a>
-                                        </p>
-                                    ) : (
-                                        <p className="rare__wiki">
-                                            Ссылка на Wikipedia отсутствует.
-                                        </p>
-                                    )}
-                                </div>
+                                <RareInfo taxon={taxon} obs={obs} />
                             </li>
                         );
                     })}
