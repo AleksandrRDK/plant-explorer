@@ -1,0 +1,172 @@
+@use '../../styles/index.sass' as *
+
+.rare
+  font-family: $font-family
+  background-color: var(--color-bg)
+  color: var(--color-text)
+  padding: 20px
+  min-height: 100vh
+
+  &__title
+    font-size: 24px
+    margin-bottom: 24px
+    color: var(--color-primary)
+
+  &__status,
+  &__error
+    font-size: 18px
+    margin-bottom: 16px
+
+  &__list
+    list-style: none
+    padding: 0
+    margin: 0
+    display: flex
+    flex-direction: column
+    gap: 20px
+
+  &__item
+    display: grid
+    grid-template-columns: 220px 1fr
+    background-color: var(--color-accent)
+    border: 1px solid var(--color-border)
+    border-radius: $border-radius
+    overflow: hidden
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+    transition: background-color $transition-fast
+    gap: 20px
+
+    strong
+      color: #000000
+      border: 1px solid #000
+      border-radius: 20px
+      padding: 3px
+      background-color: var(--color-secondary)
+
+  &__item-img__wrapper
+    display: flex
+    height: 100%
+
+  &__image
+    flex-shrink: 0
+    width: 220px
+    height: 100%
+    object-fit: cover
+    border-right: 1px solid var(--color-border)
+    background-color: var(--color-border)
+    border-top-left-radius: $border-radius
+    border-bottom-left-radius: $border-radius
+    cursor: pointer
+
+  &__image_placeholder
+    display: flex
+    align-items: center
+    justify-content: center
+    font-size: 14px
+    color: var(--color-text)
+    background-color: var(--color-border)
+    width: 220px
+    height: 100%
+
+  &__info
+    padding: 12px 20px
+    display: flex
+    flex-direction: column
+    justify-content: center
+    gap: 12px
+    color: var(--color-accent-text)
+
+  &__info-header
+    display: flex
+    flex-direction: column
+    margin-bottom: 8px
+    gap: 15px
+
+  &__name
+    font-size: 20px
+    font-weight: 700
+    margin-bottom: 6px
+
+  &__scientific
+    font-style: italic
+    font-size: 16px
+
+  &__info-columns
+    display: flex
+    gap: 24px
+
+  &__info-column
+    flex: 1
+    display: flex
+    flex-direction: column
+    gap: 15px
+    font-size: 14px
+
+  &__description
+    font-size: 14px
+    line-height: 1.4
+
+  &__wiki
+    width: fit-content
+    padding: 0.75rem 1rem
+    border: 1px solid var(--color-border)
+    border-radius: $border-radius
+    background: linear-gradient(135deg, #a56eff, #d084ff, #c986ff)
+    color: var(--color-accent-text)
+    font-size: $font-size-base
+    font-family: $font-family
+    transition: background-color $transition-fast, color $transition-fast
+
+    a
+      text-decoration: none
+      color: var(--color-accent-text)
+      font-weight: 600
+      transition: color $transition-fast
+
+  .modal
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: var(--color-bg-overlay)
+    display: flex
+    justify-content: center
+    align-items: center
+    z-index: 1000
+
+  .modal__content
+    position: relative
+    background: var(--color-bg)
+    padding: 1rem
+    border-radius: $border-radius
+    max-width: 90%
+    max-height: 90%
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3)
+    display: flex
+    flex-direction: column
+    align-items: center
+
+  .modal__image
+    max-width: 100%
+    max-height: 80vh
+    border-radius: $border-radius
+
+  .modal__close
+    position: absolute
+    top: 10px
+    right: 10px
+    background: var(--color-primary)
+    border: none
+    color: white
+    font-size: 1.5rem
+    cursor: pointer
+    border-radius: 50%
+    width: 36px
+    height: 36px
+    line-height: 36px
+    text-align: center
+    transition: $transition-fast
+
+    &:hover
+      background: var(--color-secondary)
