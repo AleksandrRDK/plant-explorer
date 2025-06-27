@@ -5,6 +5,7 @@ const Main = () => {
     return (
         <>
             <Navigation />
+            <div className="nav__offset"></div>
             <main className="home-page">
                 <div className="home-page__background-leaves" />
                 <div className="home-page__content">

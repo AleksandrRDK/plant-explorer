@@ -66,6 +66,7 @@ const Rare = () => {
     return (
         <>
             <Navigation />
+            <div className="nav__offset"></div>
             <main className="rare">
                 <h1 className="rare__title">Редкие виды растений</h1>
 

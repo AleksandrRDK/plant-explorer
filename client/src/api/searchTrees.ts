@@ -11,7 +11,6 @@ export async function fetchPlants(
     page?: number
 ): Promise<FetchPlantsResult> {
     try {
-        console.log('запрос', query, page);
         let url =
             'https://perenual.com/api/v2/species-list?key=sk-lo4s685937fe902ad11133';
         if (query !== undefined) {
@@ -23,7 +22,6 @@ export async function fetchPlants(
         }
 
         const res = await axios.get<PlantsResponse>(url);
-        console.log(res);
 
         return {
             plants: res.data.data,

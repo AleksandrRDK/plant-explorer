@@ -37,6 +37,7 @@ const Search = () => {
     return (
         <main className="search-page">
             <Navigation />
+            <div className="nav__offset"></div>
             <SearchBar
                 query={query}
                 setQuery={setQuery}
