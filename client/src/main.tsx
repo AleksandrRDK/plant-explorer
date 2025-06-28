@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles/reset.scss';
 import './styles/index.sass';
+import 'leaflet/dist/leaflet.css';
 import App from './App.tsx';
 
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
