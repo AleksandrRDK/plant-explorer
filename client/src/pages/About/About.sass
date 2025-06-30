@@ -1,0 +1,48 @@
+@use '../../styles/index.sass' as *
+
+.about
+  padding: 2rem
+  background-color: var(--color-bg)
+  color: var(--color-text)
+  font-family: $font-family
+  line-height: 1.6
+
+  &__title
+    font-size: 2rem
+    margin-bottom: 2rem
+    color: var(--color-primary)
+
+  &__section
+    margin-bottom: 2rem
+    border-left: 4px solid var(--color-accent)
+    padding-left: 1rem
+
+  &__subtitle
+    font-size: 1.5rem
+    margin-bottom: 1rem
+    color: var(--color-secondary)
+
+  &__subsubtitle
+    font-size: 1.2rem
+    font-weight: bold
+    margin: 1rem 0 0.5rem
+    color: var(--color-tertiary)
+
+  &__text
+    margin-bottom: 1rem
+    font-size: $font-size-base
+
+  &__list
+    margin: 0
+    padding-left: 1.2rem
+    list-style-type: disc
+
+  &__list--ordered
+    list-style-type: decimal
+
+  &__item
+    margin-bottom: 0.5rem
+
+  &__sublist
+    padding-left: 1.5rem
+    list-style-type: circle

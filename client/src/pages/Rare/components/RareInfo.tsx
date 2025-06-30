@@ -1,5 +1,3 @@
-import './RareInfo.sass';
-
 import type { Observation } from '@/types/rarePlants';
 
 interface RareInfoProps {

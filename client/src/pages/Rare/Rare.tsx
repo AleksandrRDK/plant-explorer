@@ -4,7 +4,8 @@ import type { Observation } from '@/types/rarePlants';
 import { fetchObservations } from '@/api/observations';
 
 import './Rare.sass';
-import RareInfo from './components/RareInfo/RareInfo';
+import RareInfo from './components/RareInfo';
+import RareModal from './components/RareModal';
 
 const Rare = () => {
     const [observations, setObservations] = useState<Observation[]>([]);
@@ -120,27 +121,10 @@ const Rare = () => {
                 )}
                 {!hasMore && <p className="rare__status">Это все данные 🌱</p>}
                 {isOpenModal && modalImageUrl && (
-                    <div
-                        className="modal"
-                        onClick={() => setIsOpenModal(false)}
-                    >
-                        <div
-                            className="modal__content"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <button
-                                className="modal__close"
-                                onClick={() => setIsOpenModal(false)}
-                            >
-                                ×
-                            </button>
-                            <img
-                                src={modalImageUrl}
-                                alt="Увеличенное фото растения"
-                                className="modal__image"
-                            />
-                        </div>
-                    </div>
+                    <RareModal
+                        setIsOpenModal={setIsOpenModal}
+                        modalImageUrl={modalImageUrl}
+                    />
                 )}
             </main>
         </>
