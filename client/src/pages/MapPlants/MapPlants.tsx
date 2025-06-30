@@ -1,10 +1,14 @@
 import './MapPlants.sass';
+import 'leaflet/dist/leaflet.css';
+
 import { Navigation } from '@/components/Navigation/Navigation';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { useEffect, useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
+
+import type { MapPlantsType } from '@/types/plant';
 import type { LatLngExpression } from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+
+import { useEffect, useState, useRef } from 'react';
 import { fetchMapPlants, searchMapPlants } from '@/api/mapPlants';
 
 const COUNTRIES = [
@@ -17,32 +21,24 @@ const COUNTRIES = [
     { name: 'Япония', id: '6759' },
 ];
 
-type MapPlants = {
-    id: number;
-    species_guess: string;
-    geojson: { coordinates: [number, number] };
-    photos?: { url: string }[];
-    place_guess?: string;
-    taxon?: {
-        default_photo?: {
-            url: string;
-            medium_url: string;
-        };
-    };
-};
-
 const MapPlants = () => {
-    const [mapPlants, setMapPlants] = useState<MapPlants[]>([]);
+    const [mapPlants, setMapPlants] = useState<MapPlantsType[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
     const [query, setQuery] = useState('');
     const [region, setRegion] = useState('');
     const [modalImage, setModalImage] = useState<string | null>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         setIsLoading(true);
+        setError(null);
         fetchMapPlants()
             .then(setMapPlants)
-            .catch((err) => console.error('Ошибка загрузки данных:', err))
+            .catch((err) => {
+                console.error('Ошибка загрузки данных:', err);
+                setError('Не удалось загрузить данные. Попробуйте позже.');
+            })
             .finally(() => setIsLoading(false));
     }, []);
 
@@ -50,14 +46,35 @@ const MapPlants = () => {
 
     const handleSearch = () => {
         setIsLoading(true);
+        setError(null);
         searchMapPlants(query, region)
             .then(setMapPlants)
-            .catch((err) => console.error('Ошибка загрузки данных:', err))
+            .catch((err) => {
+                console.error('Ошибка загрузки данных:', err);
+                if (err.message.includes('ERR_NAME_NOT_RESOLVED')) {
+                    setError(
+                        'Не удается подключиться к серверу. Попробуйте включить VPN или смените браузер.'
+                    );
+                } else {
+                    setError('Ошибка при поиске растений. Попробуйте ещё раз.');
+                }
+            })
             .finally(() => setIsLoading(false));
     };
 
     const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setRegion(e.target.value);
+        inputRef.current?.focus();
+    };
+
+    const isValidCoords = (obs: MapPlantsType): boolean => {
+        return (
+            obs.geojson &&
+            Array.isArray(obs.geojson.coordinates) &&
+            obs.geojson.coordinates.length >= 2 &&
+            typeof obs.geojson.coordinates[0] === 'number' &&
+            typeof obs.geojson.coordinates[1] === 'number'
+        );
     };
 
     return (
@@ -65,12 +82,19 @@ const MapPlants = () => {
             <Navigation />
             <div className="nav__offset"></div>
             <div className="map-plants">
-                <div className="map-plants__filters">
+                <form
+                    className="map-plants__filters"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSearch();
+                    }}
+                >
                     <input
                         className="map-plants__input"
                         type="text"
                         placeholder="Введите название растения"
                         value={query}
+                        ref={inputRef}
                         onChange={(e) => setQuery(e.target.value)}
                     />
                     <input
@@ -92,13 +116,11 @@ const MapPlants = () => {
                             </option>
                         ))}
                     </select>
-                    <button
-                        className="map-plants__button"
-                        onClick={handleSearch}
-                    >
+                    <button className="map-plants__button" type="submit">
                         Поиск
                     </button>
-                </div>
+                </form>
+                {error && <div className="map-plants__error">{error}</div>}
                 {isLoading && (
                     <div className="loading-overlay">
                         <ClipLoader color="#36d7b7" size={60} />
@@ -118,14 +140,13 @@ const MapPlants = () => {
                         attribution="&copy; OpenStreetMap contributors"
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
+                    {!isLoading && mapPlants.length === 0 && (
+                        <p className="map-plants__empty">
+                            Совпадений не найдено.
+                        </p>
+                    )}
                     {mapPlants.map((obs) => {
-                        if (
-                            !obs.geojson ||
-                            !Array.isArray(obs.geojson.coordinates) ||
-                            obs.geojson.coordinates.length < 2
-                        ) {
-                            return null;
-                        }
+                        if (!isValidCoords(obs)) return null;
 
                         const pos: LatLngExpression = [
                             obs.geojson.coordinates[1],

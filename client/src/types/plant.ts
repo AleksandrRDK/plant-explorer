@@ -34,3 +34,16 @@ export interface PlantImage {
     small_url: string;
     thumbnail: string;
 }
+
+export type MapPlantsType = {
+    id: number;
+    species_guess: string;
+    geojson: { coordinates: [number, number] };
+    place_guess?: string;
+    taxon?: {
+        default_photo?: {
+            url: string;
+            medium_url: string;
+        };
+    };
+};
