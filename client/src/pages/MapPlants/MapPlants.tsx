@@ -1,5 +1,6 @@
 import './MapPlants.sass';
 import 'leaflet/dist/leaflet.css';
+import '../../utils/leaflet-icon-fix';
 
 import { MapFilters } from './components/MapFilters';
 import { MapView } from './components/MapView';
