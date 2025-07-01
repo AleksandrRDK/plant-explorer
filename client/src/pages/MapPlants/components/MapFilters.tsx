@@ -42,7 +42,7 @@ export const MapFilters: FC<Props> = ({
             <input
                 className="map-plants__input"
                 type="text"
-                placeholder="ID региона (например, 1 для США)"
+                placeholder="ID региона"
                 value={region}
                 onChange={(e) => setRegion(e.target.value)}
             />

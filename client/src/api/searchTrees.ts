@@ -14,7 +14,7 @@ export async function fetchPlants(
         let url =
             'https://perenual.com/api/v2/species-list?key=sk-lo4s685937fe902ad11133';
         if (query !== undefined) {
-            url += `&query=${encodeURIComponent(query)}`;
+            url += `&q=${encodeURIComponent(query)}`;
         }
 
         if (page) {

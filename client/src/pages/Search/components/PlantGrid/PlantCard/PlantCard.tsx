@@ -1,5 +1,6 @@
 import type { Plant } from '@/types/plant';
 import './PlantCard.sass';
+import { useState } from 'react';
 
 interface PlantCardProps {
     plant: Plant;
@@ -16,15 +17,34 @@ const PlantCard = ({ plant }: PlantCardProps) => {
         hybrid,
     } = plant;
 
+    const placeholder = `${import.meta.env.BASE_URL}images/placeholder.png`;
+
+    const [imgSrc, setImgSrc] = useState<string>(
+        default_image?.regular_url ?? placeholder
+    );
+
+    const handleImgError = () => {
+        if (imgSrc !== placeholder) {
+            setImgSrc(placeholder);
+        }
+    };
+
     return (
         <div className="plant-card">
-            {default_image?.regular_url && (
-                <img
-                    src={default_image.regular_url}
-                    alt={common_name || scientific_name[0]}
-                    className="plant-card__image"
-                />
-            )}
+            <img
+                src={imgSrc}
+                alt={
+                    common_name ||
+                    scientific_name?.[0] ||
+                    'Неизвестное растение'
+                }
+                className={`plant-card__image ${
+                    imgSrc === placeholder
+                        ? 'plant-card__image--placeholder'
+                        : ''
+                }`}
+                onError={handleImgError}
+            />
             <div className="plant-card__body">
                 <h2 className="plant-card__name">
                     {common_name || 'Без названия'}

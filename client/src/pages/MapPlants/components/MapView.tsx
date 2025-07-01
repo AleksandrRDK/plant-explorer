@@ -27,7 +27,6 @@ export const MapView = ({ plants, setModalImage, isLoading }: Props) => {
             zoom={3}
             scrollWheelZoom={true}
             style={{
-                minHeight: '500px',
                 height: '80vh',
                 width: '100%',
             }}

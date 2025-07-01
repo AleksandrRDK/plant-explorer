@@ -6,6 +6,7 @@
   color: var(--color-text)
   font-family: $font-family
   line-height: 1.6
+  scroll-behavior: smooth
 
   &__title
     font-size: 2rem
@@ -16,6 +17,7 @@
     margin-bottom: 2rem
     border-left: 4px solid var(--color-accent)
     padding-left: 1rem
+    height: 100%
 
   &__subtitle
     font-size: 1.5rem
@@ -46,3 +48,72 @@
   &__sublist
     padding-left: 1.5rem
     list-style-type: circle
+
+  &__main-section
+    display: grid
+    grid-template-rows: 1fr
+    grid-template-columns: 1fr 1fr
+    align-items: start
+    margin-bottom: 2rem
+    .about__section
+      margin-bottom: 0
+
+  &__img__wrapper
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: flex-start
+    gap: 20px
+    img
+      max-width: 100%
+      height: auto
+      width: auto
+
+  &__local-nav
+    background-color: var(--color-accent)
+    padding: 1.5rem
+    border-radius: $border-radius
+    max-width: 240px
+    margin-bottom: 2rem
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05)
+
+  &__local-nav-list
+    list-style: none
+    display: flex
+    flex-direction: column
+    gap: 1rem
+    padding: 0
+    margin: 0
+
+    button
+      cursor: pointer
+      background: none
+      border: none
+      color: var(--color-accent-text)
+      text-decoration: none
+      font-weight: 600
+      transition: background-color $transition-fast, color $transition-fast
+      padding: 0.5rem 0.75rem
+      border-radius: $border-radius
+
+      &:hover
+        background-color: var(--color-border)
+        color: var(--color-text)
+
+  .scroll-to-top
+    position: fixed
+    bottom: 2rem
+    right: 2rem
+    background-color: var(--color-primary)
+    color: var(--color-accent-text)
+    border: none
+    border-radius: 50%
+    width: 3rem
+    height: 3rem
+    font-size: 1.5rem
+    cursor: pointer
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2)
+    transition: background-color $transition-fast
+
+    &:hover
+      background-color: var(--color-secondary)

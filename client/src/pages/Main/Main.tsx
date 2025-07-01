@@ -1,7 +1,11 @@
 import { Navigation } from '../../components/Navigation/Navigation';
 import './Main.sass';
+import { quotes } from '@/constants/quotes';
 
 const Main = () => {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    const randomQuote = quotes[randomIndex];
+
     return (
         <>
             <Navigation />
@@ -65,7 +69,7 @@ const Main = () => {
                     </section>
                     <div className="home-page__wrapper-plant-quote">
                         <blockquote className="home-page__plant-quote">
-                            «Растения — это лёгкие Земли» — Карл Саган
+                            {randomQuote}
                         </blockquote>
                     </div>
                 </div>

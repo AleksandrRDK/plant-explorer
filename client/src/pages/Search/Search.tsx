@@ -35,24 +35,26 @@ const Search = () => {
     };
 
     return (
-        <main className="search-page">
+        <>
             <Navigation />
             <div className="nav__offset"></div>
-            <SearchBar
-                query={query}
-                setQuery={setQuery}
-                onSearch={onSearch}
-                isLoading={isLoading}
-            />
-            <PlantGrid plants={plants} isLoading={isLoading} />
-            {isLoading ? null : (
-                <Pagination
-                    page={page}
-                    setPage={setPage}
-                    hasNextPage={page < lastPage}
+            <main className="search-page">
+                <SearchBar
+                    query={query}
+                    setQuery={setQuery}
+                    onSearch={onSearch}
+                    isLoading={isLoading}
                 />
-            )}
-        </main>
+                <PlantGrid plants={plants} isLoading={isLoading} />
+                {isLoading ? null : (
+                    <Pagination
+                        page={page}
+                        setPage={setPage}
+                        hasNextPage={page < lastPage}
+                    />
+                )}
+            </main>
+        </>
     );
 };
 

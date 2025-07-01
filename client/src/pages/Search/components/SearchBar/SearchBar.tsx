@@ -13,8 +13,12 @@ const SearchBar = ({
     onSearch,
     isLoading,
 }: SearchBarProps) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        onSearch();
+    };
     return (
-        <label className="search-bar">
+        <form className="search-bar" onSubmit={handleSubmit}>
             <span className="search-bar__label">Поиск:</span>
             <input
                 className="search-bar__input"
@@ -24,14 +28,10 @@ const SearchBar = ({
                 placeholder="Введите название растения..."
                 aria-label="Поиск растения"
             />
-            <button
-                className="search-bar__button"
-                onClick={onSearch}
-                disabled={isLoading}
-            >
+            <button className="search-bar__button" disabled={isLoading}>
                 {isLoading ? 'Поиск...' : 'Найти'}
             </button>
-        </label>
+        </form>
     );
 };
 

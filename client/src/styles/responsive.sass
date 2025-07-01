@@ -1,0 +1,54 @@
+@media (max-width: 1024px)
+  .nav
+    padding: 1rem 1rem !important
+    height: 120px !important
+
+  .nav__offset
+    height: 120px !important
+
+
+@media (max-width: 768px)
+  .nav
+    background-color: transparent !important
+    border-bottom: none !important
+    &__wrapper
+      display: flex !important
+    &__offset
+      height: 0px !important
+
+    &__menu
+      display: none !important
+      flex-direction: column !important
+      width: 100% !important
+      height: 100vh !important
+      top: 0 !important
+      background-color: var(--color-bg) !important
+      padding: 1rem !important
+      padding-top: 60px !important
+
+    &__menu--open
+      display: flex !important
+
+    &__burger
+      display: flex !important
+
+@media (max-width: 480px)
+  .rare__item
+    grid-template-columns: 1fr !important
+    &-img__wrapper
+      justify-content: center !important
+      align-items: center !important
+
+  .rare__info-columns
+    flex-direction: column !important
+
+  .about__main-section
+    grid-template-rows: 1fr !important
+    grid-template-columns: 1fr !important
+    gap: 10px !important
+
+@media (max-width: 320px)
+  .about__item
+    code
+      white-space: pre-wrap
+      word-break: break-word
