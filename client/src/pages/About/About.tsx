@@ -199,16 +199,21 @@ const About = () => {
                             </code>
                         </li>
                         <li className="about__item">
-                            Перейдите в папку <code>client</code>:{' '}
-                            <code>cd client</code>
+                            Перейдите в корневую папку проекта:{' '}
+                            <code>cd plant-explorer</code>
                         </li>
                         <li className="about__item">
-                            Установите зависимости: <code>npm install</code>
+                            Запустите проект с помощью Docker Compose:{' '}
+                            <code>docker compose up --build</code>
                         </li>
                         <li className="about__item">
-                            Запустите локальный сервер: <code>npm run dev</code>
+                            В последующие разы запускайте через:{' '}
+                            <code>docker compose up -d</code>
                         </li>
-                        <li className="about__item">Откройте localhost:5173</li>
+                        <li className="about__item">
+                            Откройте в браузере:{' '}
+                            <code>http://localhost:5173</code>
+                        </li>
                     </ol>
                 </div>
 
