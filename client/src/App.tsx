@@ -7,7 +7,7 @@ const Search = lazy(() => import('./pages/Search/Search'));
 const Identify = lazy(() => import('./pages/Identify/Identify'));
 const Rare = lazy(() => import('./pages/Rare/Rare'));
 const MapPlants = lazy(() => import('./pages/MapPlants/MapPlants'));
-const About = lazy(() => import('./pages/About/About'));
+// const About = lazy(() => import('./pages/About/About'));
 
 function App() {
     return (
@@ -19,7 +19,7 @@ function App() {
                     <Route path="/identify" element={<Identify />} />
                     <Route path="/rare" element={<Rare />} />
                     <Route path="/map" element={<MapPlants />} />
-                    <Route path="/about" element={<About />} />
+                    {/* <Route path="/about" element={<About />} /> */}
                 </Routes>
             </Suspense>
         </Router>

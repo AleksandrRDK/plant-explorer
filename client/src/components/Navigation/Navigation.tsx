@@ -66,14 +66,14 @@ export const Navigation = () => {
                 >
                     📍 Карта наблюдений
                 </NavLink>
-                <NavLink
+                {/* <NavLink
                     to="/about"
                     className={({ isActive }) =>
                         isActive ? 'nav__item nav__item--active' : 'nav__item'
                     }
                 >
                     📦 О проекте
-                </NavLink>
+                </NavLink> */}
             </div>
         </nav>
     );
